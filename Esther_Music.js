@@ -7,13 +7,13 @@ let musicModule = {
     addSong(n, a, d, l, g) {
         for (let i = 0; i < this.song.length; i++) {
             if (this.song[i].name === n) {
-                if (this.song[i].artist === a) {
-                    console.log("This song already exists, please add another one!");
-                }
-                else {
-                    this.song.push({ name: n, artist: a, duration: d, listeners: l, genre: g });
-                    console.log('"' + n + '" by ' + a +  ' has been added!');
-                }
+                console.log("This song already exists, please add another one!");
+                break;
+            }
+            else {
+                this.song.push({ name: n, artist: a, duration: d, listeners: l, genre: g });
+                console.log('"' + n + '" by ' + a +  ' has been added!');
+                break;
             }
         }
     },
@@ -90,8 +90,20 @@ let musicModule = {
     allSongs() {
         console.log(this.song);
     },
-    searchGenre() {
-
+    searchGenre(g) {
+        search = [];
+        for (let i = 0; i < this.song.length; i++){
+            if (this.song[i].genre === g){
+                search.push(this.song[i]);
+            }
+        }
+        if (search.length===0){
+            console.log("There are no songs in this genre, try again!");
+        }
+        else {
+            console.log(g + " songs are:")
+            console.log(search);
+        }
     },
 }
 module.exports = musicModule;
@@ -99,10 +111,13 @@ module.exports = musicModule;
 //console.log(musicModule.playSong("Maestro"));
 //console.log(musicModule.allSongs());
 //console.log(musicModule.viewPlaylist("Favourites"));
-console.log(musicModule.createPlaylist("test"));
-console.log(musicModule.viewPlaylist("test"));
-console.log(musicModule.addToPlaylist("test", "Maestro"));
-console.log(musicModule.viewPlaylist("test"));
-console.log(musicModule.addToPlaylist("testwer", "Maestro"));
-console.log(musicModule.addToPlaylist("test", "idk"));
+//console.log(musicModule.createPlaylist("test"));
+//console.log(musicModule.viewPlaylist("test"));
+//console.log(musicModule.addToPlaylist("test", "Maestro"));
+//console.log(musicModule.viewPlaylist("test"));
+//console.log(musicModule.addToPlaylist("testwer", "Maestro"));
+//console.log(musicModule.addToPlaylist("test", "idk"));
+//console.log(musicModule.searchGenre("lol"));
+console.log(musicModule.addSong("Lalali","SEVENTEEN","2:52", "1,000,000", "KPOP"));
+console.log(musicModule.playSong("Lalali"));
 
