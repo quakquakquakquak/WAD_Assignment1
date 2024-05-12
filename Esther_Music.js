@@ -238,8 +238,14 @@ let musicModule = {
 }
 module.exports = musicModule;
 
+
+//view specific song
 //console.log(musicModule.playSong("Maestro"));
+
+//view all songs
 //console.log(musicModule.allSongs());
+
+//creating and viewing playlists
 //console.log(musicModule.viewPlaylist("Favourites"));
 //console.log(musicModule.createPlaylist("test"));
 //console.log(musicModule.viewPlaylist("test"));
@@ -247,11 +253,19 @@ module.exports = musicModule;
 //console.log(musicModule.viewPlaylist("test"));
 //console.log(musicModule.addToPlaylist("testwer", "Maestro"));
 //console.log(musicModule.addToPlaylist("test", "idk"));
+
+//viewing all playlists
+//console.log(musicModule.allPlaylist());
+//console.log(musicModule.createPlaylist("test1"));
+//console.log(musicModule.createPlaylist("test2", description = "idk"));
+//console.log(musicModule.allPlaylist());
+
+//search genre
 //console.log(musicModule.searchGenre("lol"));
+
+//adding songs
 //console.log(musicModule.addSong("Lalali", "SEVENTEEN", "2:52", "1,000,000", "KPOP"));
 //console.log(musicModule.playSong("Lalali"));
-console.log(musicModule.allPlaylist());
-console.log(musicModule.createPlaylist("test1"));
-console.log(musicModule.createPlaylist("test2", description = "idk"));
-console.log(musicModule.allPlaylist());
+
+
 
