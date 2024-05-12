@@ -3,7 +3,7 @@ let musicModule = {
     song: [{ name: "Maestro", artist: "SEVENTEEN", duration: "3:18", listeners: "9,000,000", genre: "KPOP" }, { name: "Pretty U", artist: "SEVENTEEN", duration: "3:27", listeners: "111,000,000", genre: "KPOP" }, { name: "Heya", artist: "IVE", duration: "3:50", listeners: "3,000,000", genre: "KPOP" }],
 
     // array of playlists
-    playlist: [{ name: "Favourites", songs: ["Maestro", "Pretty U"] }],
+    playlist: [{ name: "Favourites", songs: ["Maestro", "Pretty U"], description: "Favourite songs" }],
 
 
     // add a song to the list of song array
@@ -20,6 +20,51 @@ let musicModule = {
                 console.log('"' + n + '" by ' + a + ' has been added!');
                 break;
             }
+        }
+    },
+    // edit an existing song
+    // 'n' = name, 'name' = new name,  'artist' = new artist, 'duration' = duration, 'listeners' = listeners, 'genre' = genre
+    editSong(n, { name, artist, duration, listeners, genre }) {
+
+        let oldSong = null;
+        let index = null;
+        let updatedSong;
+
+        // checking is song exists
+        for (let i = 0; i < this.song.length; i++) {
+            if (this.song[i].name === n) {
+                oldSong = this.song[i];
+                index = i;
+                break;
+            }
+        }
+
+        // if the song is found, update it with the new information
+        if (oldSong !== null) {
+            // fill up updatedSong with old song's info first
+            updatedSong = {
+                name: oldSong.name,
+                artist: oldSong.artist,
+                duration: oldSong.duration,
+                listeners: oldSong.listeners,
+                genre: oldSong.genre
+            };
+
+            // update any info provided
+            if (name) updatedSong.name = name;
+            if (artist) updatedSong.artist = artist;
+            if (duration) updatedSong.duration = duration;
+            if (listeners) updatedSong.listeners = listeners;
+            if (genre) updatedSong.genre = genre;
+
+            // update the song at the found index with the updated song object
+            this.song[index] = updatedSong;
+            console.log("Song '" + n + "' has been updated.");
+            console.log(updatedSong);
+        }
+        // if song is not found 
+        else {
+            console.log("Song '" + n + "' not found. No changes made.");
         }
     },
     // displays song info of specified song. 
@@ -70,6 +115,11 @@ let musicModule = {
             // if 'selected' is not empty, display playlist content
             console.log("Currently Viewing Playlist: " + selected.name);
 
+            // if there's a playlist description
+            if (selected.description) {
+                console.log("Description: " + selected.description);
+            }
+
             if (selected.songs && selected.songs.length > 0) {
                 // if songs array in playlist is not empty
                 console.log("Playlist Contains: " + selected.songs);
@@ -84,22 +134,21 @@ let musicModule = {
         }
     },
     // create new playlist
-    // 'n' is the name of the new playlist
-    createPlaylist(n) {
+    // 'n' is the name of the new playlist, optional 'description'
+    createPlaylist(n, description = "None") {
+
+        // check if playlist name exists
         for (let i = 0; i < this.playlist.length; i++) {
-            // check if playlist name exists
             if (this.playlist[i].name === n) {
-                // if yes, break loop
-                console.log("Name for playlist is already in used, please enter a new one.");
-                break;
-            }
-            else {
-                // if name is not in use, create new playlist
-                this.playlist.push({ name: n, songs: [] });
-                console.log(n + " has been created!");
-                break;
+                // If the name exists, log a message and return
+                console.log("Name for playlist is already in use, please enter a new one.");
+                return;
             }
         }
+        // if name is not in use, create new playlist
+        this.playlist.push({ name: n, songs: [], description: description });
+        console.log(n + " has been created!");
+
 
     },
     //add songs to playlist
@@ -141,7 +190,27 @@ let musicModule = {
     },
     // display all songs
     allSongs() {
-        console.log(this.song);
+        let songNames = [];
+        // go through all songs, get the name
+        for (let i = 0; i < this.song.length; i++) {
+            songNames.push(this.song[i].name);
+        }
+        console.log("These are the songs in the database:")
+        console.log(songNames);
+    },
+    allPlaylist() {
+        let playlistNames = [];
+        let playlistDesc = [];
+        // go through all songs, get the name
+        for (let i = 0; i < this.playlist.length; i++) {
+            playlistNames.push(this.playlist[i].name);
+            playlistDesc.push(this.playlist[i].description);
+        }
+        console.log("These are the playlists in the database: \n")
+
+        for (let i = 0; i < playlistNames.length; i++) {
+            console.log("Name: " + playlistNames[i] + "\nDescription: " + playlistDesc[i] + " \n");
+        }
     },
     // search for songs that has a certain genre
     // 'g' = name of genre
@@ -179,6 +248,10 @@ module.exports = musicModule;
 //console.log(musicModule.addToPlaylist("testwer", "Maestro"));
 //console.log(musicModule.addToPlaylist("test", "idk"));
 //console.log(musicModule.searchGenre("lol"));
-console.log(musicModule.addSong("Lalali", "SEVENTEEN", "2:52", "1,000,000", "KPOP"));
-console.log(musicModule.playSong("Lalali"));
+//console.log(musicModule.addSong("Lalali", "SEVENTEEN", "2:52", "1,000,000", "KPOP"));
+//console.log(musicModule.playSong("Lalali"));
+console.log(musicModule.allPlaylist());
+console.log(musicModule.createPlaylist("test1"));
+console.log(musicModule.createPlaylist("test2", description = "idk"));
+console.log(musicModule.allPlaylist());
 
