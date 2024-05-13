@@ -1,4 +1,5 @@
-let musicModule = {
+
+module.exports = {
     // array of songs and their info
     song: [{ name: "Maestro", artist: "SEVENTEEN", duration: "3:18", listeners: "9,000,000", genre: "KPOP" }, { name: "Pretty U", artist: "SEVENTEEN", duration: "3:27", listeners: "111,000,000", genre: "KPOP" }, { name: "Heya", artist: "IVE", duration: "3:50", listeners: "3,000,000", genre: "KPOP" }],
 
@@ -12,8 +13,9 @@ let musicModule = {
         for (let i = 0; i < this.song.length; i++) {
             // checking is song with this name already exists
             if (this.song[i].name === n) {
-                console.log("This song already exists, please add another one!");
-                break;
+                throw Error(console.log("This song already exists, please add another one!"))
+                //console.log("This song already exists, please add another one!");
+                //break;
             }
             else {
                 this.song.push({ name: n, artist: a, duration: d, listeners: l, genre: g });
@@ -21,10 +23,12 @@ let musicModule = {
                 break;
             }
         }
+
     },
     // edit an existing song
-    // 'n' = name, 'name' = new name,  'artist' = new artist, 'duration' = duration, 'listeners' = listeners, 'genre' = genre
-    editSong(n, { name, artist, duration, listeners, genre }) {
+    // 'n' = name, 'newName' = new name,  'artist' = new artist, 'duration' = duration, 'listeners' = listeners, 'genre' = genre
+    editSong(n,  newName = null, artist = null, duration = null, listeners = null, genre = null ) {
+
 
         let oldSong = null;
         let index = null;
@@ -43,15 +47,15 @@ let musicModule = {
         if (oldSong !== null) {
             // fill up updatedSong with old song's info first
             updatedSong = {
-                name: oldSong.name,
-                artist: oldSong.artist,
-                duration: oldSong.duration,
-                listeners: oldSong.listeners,
-                genre: oldSong.genre
+                name: oldSong["name"],
+                artist: oldSong["artist"],
+                duration: oldSong["duration"],
+                listeners: oldSong["listeners"],
+                genre: oldSong["genre"]
             };
 
             // update any info provided
-            if (name) updatedSong.name = name;
+            if (newName) updatedSong.name = newName;
             if (artist) updatedSong.artist = artist;
             if (duration) updatedSong.duration = duration;
             if (listeners) updatedSong.listeners = listeners;
@@ -59,7 +63,7 @@ let musicModule = {
 
             // update the song at the found index with the updated song object
             this.song[index] = updatedSong;
-            console.log("Song '" + n + "' has been updated.");
+            console.log("Song '" + newName + "' has been updated.");
             console.log(updatedSong);
         }
         // if song is not found 
@@ -93,8 +97,10 @@ let musicModule = {
             // if empty
             console.log("Song not found");
         }
+
+
     },
-    // views what songs is in a certain playlist
+    // view what song(s) is in a certain playlist
     // 'n' is the name of the playlist
     viewPlaylist(n) {
 
@@ -198,6 +204,7 @@ let musicModule = {
         console.log("These are the songs in the database:")
         console.log(songNames);
     },
+    // display all existing playlists and it's description
     allPlaylist() {
         let playlistNames = [];
         let playlistDesc = [];
@@ -215,57 +222,31 @@ let musicModule = {
     // search for songs that has a certain genre
     // 'g' = name of genre
     searchGenre(g) {
+        // convert the input genre to lowercase
+        const genreToSearch = g.toLowerCase();
+    
         // empty array of possible songs in that genre
-        search = [];
-
+        let search = [];
+    
         // find songs with that genre
         for (let i = 0; i < this.song.length; i++) {
-            if (this.song[i].genre === g) {
-                // if theres any songs with that genre, add that song object into the array
+            // convert the genre of each song to lowercase for comparison
+            const songGenre = this.song[i].genre.toLowerCase();
+            
+            if (songGenre === genreToSearch) {
+                // if there are any songs with that genre, add that song object into the array
                 search.push(this.song[i]);
             }
         }
+    
         if (search.length === 0) {
-            // if array is empty, means theres no songs with that genre
+            // if array is empty, means there are no songs with that genre
             console.log("There are no songs in this genre, try again!");
-        }
-        else {
+        } else {
             // if array not empty, display the songs + song details in that genre
-            console.log(g + " songs are:")
+            console.log(g + " songs are:");
             console.log(search);
         }
     },
 }
-module.exports = musicModule;
-
-
-//view specific song
-//console.log(musicModule.playSong("Maestro"));
-
-//view all songs
-//console.log(musicModule.allSongs());
-
-//creating and viewing playlists
-//console.log(musicModule.viewPlaylist("Favourites"));
-//console.log(musicModule.createPlaylist("test"));
-//console.log(musicModule.viewPlaylist("test"));
-//console.log(musicModule.addToPlaylist("test", "Maestro"));
-//console.log(musicModule.viewPlaylist("test"));
-//console.log(musicModule.addToPlaylist("testwer", "Maestro"));
-//console.log(musicModule.addToPlaylist("test", "idk"));
-
-//viewing all playlists
-//console.log(musicModule.allPlaylist());
-//console.log(musicModule.createPlaylist("test1"));
-//console.log(musicModule.createPlaylist("test2", description = "idk"));
-//console.log(musicModule.allPlaylist());
-
-//search genre
-//console.log(musicModule.searchGenre("lol"));
-
-//adding songs
-//console.log(musicModule.addSong("Lalali", "SEVENTEEN", "2:52", "1,000,000", "KPOP"));
-//console.log(musicModule.playSong("Lalali"));
-
-
 
